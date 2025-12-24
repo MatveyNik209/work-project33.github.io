@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Класс 5К - Официальный портал</title>
+    <style>
+        :root {
+            --primary: #4a6cfa;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --dark: #2d3436;
+            --light: #f7f9fc;
+            --gray: #dfe6e9;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray);
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:hover {
+            background-color: rgba(74, 108, 250, 0.05);
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: #3a5be8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(58, 91, 232, 0.2);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 108, 250, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-online {
+            background: var(--success);
+        }
+        
+        .status-offline {
+            background: var(--danger);
+        }
+        
+        .server-info {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        
+        .code-block {
+            background: #2d3436;
+            color: #00ff9d;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .support-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .student-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .student-chip {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">🏫</div>
+            <div>5К КЛАСС</div>
+        </div>
+        <nav>
+            <a href="#home">Главная</a>
+            <a href="#schedule">Расписание</a>
+            <a href="#server">Сервер</a>
+            <a href="#homework">Домашние задания</a>
+            <a href="#login" id="login-link">Вход</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Главная страница -->
+        <section id="home-section" class="section">
+            <h2 class="section-title">Добро пожаловать в класс 5К!</h2>
+            <p>Официальный портал нашего класса. Здесь вы найдете расписание, домашние задания, доступ к серверам и многое другое.</p>
+            
+            <h3 style="margin: 2rem 0 1rem; color: var(--primary);">Наши учителя</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="user-avatar">ЕЯ</div>
+                    <h3>Елена Яковлевна</h3>
+                    <p>Классный руководитель</p>
+                </div>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem; color: var(--primary);">Ученики класса</h3>
+            
+            <div class="student-list">
+                <div class="student-chip">Алина</div>
+                <div class="student-chip">Дениз</div>
+                <div class="student-chip">Вера</div>
+                <div class="student-chip">Даша</div>
+                <div class="student-chip">Аня</div>
+                <div class="student-chip">Катя</div>
+                <div class="student-chip">Алие</div>
+                <div class="student-chip">Ксюша</div>
+                <div class="student-chip">Ангелина</div>
+                <div class="student-chip">Элина</div>
+                <div class="student-chip">Настя</div>
+                <div class="student-chip">Маша</div>
+                <div class="student-chip">Мирон</div>
+                <div class="student-chip">Герман</div>
+                <div class="student-chip">Святик</div>
+                <div class="student-chip">Даня</div>
+                <div class="student-chip">Паша</div>
+                <div class="student-chip">Матвей</div>
+                <div class="student-chip">Миша</div>
+                <div class="student-chip">Боря</div>
+                <div class="student-chip">Диана</div>
+                <div class="student-chip">Феадор</div>
+                <div class="student-chip">Саша</div>
+            </div>
+        </section>
+
+        <!-- Расписание -->
+        <section id="schedule-section" class="section" style="display: none;">
+            <h2 class="section-title">Расписание занятий</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>Понедельник</th>
+                        <th>Вторник</th>
+                        <th>Среда</th>
+                        <th>Четверг</th>
+                        <th>Пятница</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>8:00-8:45</td>
+                        <td>Математика</td>
+                        <td>Русский язык</td>
+                        <td>Литература</td>
+                        <td>Математика</td>
+                        <td>Английский язык</td>
+                    </tr>
+                    <tr>
+                        <td>9:00-9:45</td>
+                        <td>Русский язык</td>
+                        <td>Физкультура</td>
+                        <td>Математика</td>
+                        <td>История</td>
+                       极端的>Математика</td>
+                    </tr>
+                    <tr>
+                        <td>10:00-10:45</td>
+                        <td>Английский язык</td>
+                        <td>Математика</td>
+                        <td>Природоведение</td>
+                        <td>Литература</td>
+                        <td>Русский язык</td>
+                    </tr>
+                    <tr>
+                        <td>11:00-11:45</td>
+                        <td>История</td>
+                        <td>Литература</td>
+                        <td>Рисование</td>
+                        <td>Физкультура</td>
+                        <td>Природоведение</极端的
+                    </tr>
+                    <tr>
+                        <td>12:00-12:45</td>
+                        <td>Музыка</td>
+                        <td>Природоведение</td>
+                        <td>Русский язык</td>
+                        <td>Английский язык</td>
+                        <td>Технология</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="btn" id="download-schedule">Скачать расписание (PDF)</button>
+        </section>
+
+        <!-- Сервер -->
+        <section id="server-section" class="section" style="display: none;">
+            <h2 class="section-title">Сервер класса 5К</h2>
+            
+            <div class="server-status">
+                <span class="status-dot status-online"></span>
+                <strong>Основной сервер:</strong> online (24/7)
+            </div>
+            
+            <div class="server-info">
+                <p>Адрес: <strong>server-5k.shkola.ru</strong></p>
+                <p>Порт: <strong>25565</strong></p>
+                <p>Версия: <strong>1.19.4</strong></p>
+                <p>Онлайн: <strong>16/32 игроков</strong></p>
+                <p>RAM: <strong>12GB / 16GB</strong></p>
+                <p>Загрузка CPU: <strong>34%</strong></p>
+            </div>
+            
+            <div class="server-status">
+                <span class="status-dot status-online"></span>
+                <strong>Realm сервер:</strong> online
+            </div>
+            
+            <div class="server-info">
+                <p>Название: <strong>5К Класс Реалм</strong></p>
+                <p>Владелец: <strong>Елена Яковлевна</极端的>
+                <p>Игроков: <strong>24/10 активных</strong></p>
+                <p>Подписка: <strong>активна до 20.12.2023</strong></p>
+            </div>
+            
+            <h3 style="margin: 1.5rem 0 1rem; color: var(--primary);">Доступ к серверу</h3>
+            <div class="code-block">
+                IP: 5k-server.mineworld.ru<br>
+                Порт: 25565<br>
+                Версия: 1.19.4<br>
+                Режим: выживание с приватами
+            </div>
+            
+            <button class="btn" id="copy-ip">Скопировать IP</button>
+            <button class="btn btn-success" id="connect-server">Подключиться</button>
+            
+            <h3 style="margin: 1.5rem 极端的 1rem; color: var(--primary);">Правила сервера</h3>
+            <ul>
+                <li>Не гриферить чужие постройки</li>
+                <li>Уважать других игроков</li>
+                <li>Соблюдать правила школы</极端的
+                <li>Использовать никнейм с настоящим именем</li>
+            </ul>
+        </section>
+
+        <!-- Домашние задания -->
+        <section id="homework-section" class="section" style="display: none;">
+            <h2 class="section-title">Домашние задания</h2>
+            
+            <div class="form-group">
+                <label>Фильтр по предмету</label>
+                <select id="subject-filter">
+                    <option value="all">Все предметы</option>
+                    <option value="math">Математика</option>
+                    <option value="russian">Русский язык</option>
+                    <option value="literature">Литература</option>
+                    <option value="english">Английский язык</option>
+                </select>
+            </div>
+            
+            <div class="homework-list">
+                <div class="card">
+                    <h3>Математика <span class="badge badge-warning">активно</span></h3>
+                    <p>Учебник стр. 45, задания № 12-15</p>
+                    <p><strong>Срок сдачи:</strong> 25.10.2023</p>
+                    <button class="btn">Загрузить выполненное</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Русский язык <span class="badge badge-warning">активно</span></h3>
+                    <p>Упражнение 56, выучить правило на стр. 32</p>
+                    <p><strong>Срок сдачи:</strong> 26.10.2023</p>
+                    <button class="btn">Загрузить выполненное</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Природоведение <span class="badge badge-success">проверено</span></h3>
+                    <p>Подготовить доклад о растениях леса</p>
+                    <p><strong>Оценка:</strong> 5/5</p>
+                </div>
+            </div>
+            
+            <button class="btn btn-success" style="margin-top: 1.5rem;" id="add-homework">Добавить домашнее задание</button>
+        </section>
+
+        <!-- Форма входа -->
+        <section id="login-section" class="section" style="display: none;">
+            <h2 class="section-title">Вход в систему</h2>
+            
+            <div class="form-group">
+                <label for="username">Логин</label>
+                <input type="text" id="username" placeholder="Ваш логин">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Ваш пароль">
+            </div>
+            
+            <button class="btn" id="login-btn">Войти</button>
+            
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--gray);">
+                <h3>Нет аккаунта? Зарегистрируйтесь</h3>
+                
+                <div class="form-group">
+                    <label for="reg-code">Код подтверждения</label>
+                    <input type="text" id="reg-code" placeholder="Введите код регистрации" value="5K-228-RN9">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullname">Ваше полное имя</label>
+                    <input type="text" id="fullname" placeholder="Как вас зовут?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Ваш email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tg-username">Telegram username</label>
+                    <input type="text" id="tg-username" placeholder="Ваш Telegram (@username)">
+                </div>
+                
+                <button class="btn btn-success" id="register-btn">Зарегистрироваться</button>
+            </div>
+            
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--gray);">
+                <h3>Техническая поддержка</h3>
+                <p>Если у вас возникли проблемы с входом или регистрацией, обратитесь в техподдержку:</p>
+                <p>Telegram: <a href="https://t.me/sviatoslav_support" class="support-link">@sviatoslav_support</a></p>
+            </div>
+        </section>
+
+        <!-- Личный кабинет -->
+        <section id="dashboard-section" class="section" style="display: none;">
+            <h2 class="section-title">Личный кабинет</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="user-avatar">С</div>
+                    <h3>Святик</h3>
+                    <p>Ученик 5К класса</p>
+                    <p>Логин: sviatik_5k</p>
+                    <p>Telegram: @sviatoslav_support</p>
+                    <p>Дата регистрации: 05.09.2023</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Статистика</h3>
+                    <p>Выполнено заданий: <strong>24</strong></p>
+                    <p>Средняя оценка: <strong>4.8</strong></p>
+                    <p>Посещений сервера: <strong>56</strong></p>
+                    <p>Зарегистрирован: <strong>35 дней</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3>Последние действия</h3>
+                    <p>Вход в систему - сегодня, 14:32</p>
+                    <p>Просмотр расписания - сегодня, 14:20</p>
+                    <p>Загрузка домашки - вчера, 16:45</p>
+                    <p>Вход на сервер - позавчера, 19:15</p>
+                </div>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem; color: var(--primary);">Мои домашние задания</h3>
+            <div class="card">
+                <h3>Математика <span class="badge badge-warning">ожидает проверки</span></h3>
+                <p>Задание: стр. 45, задания № 12-15</p>
+                <p>Загружено: 23.10.2023 в 16:45</p>
+            </div>
+            
+            <div class="card">
+                <h3>Русский язык <span class="badge badge-success">проверено</span></h3>
+                <p>Задание: упражнение 56</p>
+                <p>Оценка: 5/5</p>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem; color: var(--primary);">Файлы сервера</h3>
+            <div class="card">
+                <h3>Моды для сервера</h3>
+                <p>Версия: 1.3 (актуальная)</p>
+                <p>Размер: 45.7 МБ</p>
+                <p>Обновлено: 20.10.2023</p>
+                <button class="btn">Скачать</button>
+            </div>
+            
+            <button class="btn btn-danger" id="logout-btn" style="margin-top: 2rem;">Выйти из аккаунта</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2023 Класс 5К | Официальный портал</p>
+        <p>Техническая поддержка: <a href="https://t.me/sviatoslav_support" class="support-link">@sviatoslav_support</a></p>
+        <p>Сервер класса: server-5k.shkola.ru:25565</p>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="server-modal">
+        <div class="modal-content">
+            <h2>Подключение к серверу</h2>
+            <p>Для подключения к серверу выполните следующие действия:</p>
+            <ol>
+                <li>Запустите Minecraft</li>
+                <li>Выберите "Сетевая игра"</li>
+                <li>Нажмите "Добавить сервер"</li>
+                <li>Введите адрес: <strong>server-5k.shkola.ru</strong></li>
+                <li>Используйте свой никнейм с указанием имени</li>
+            </ol>
+            <button class="btn" id="close-modal">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        // Элементы страницы
+        const sections = {
+            home: document.getElementById('home-section'),
+            schedule: document.getElementById('schedule-section'),
+            server: document.getElementById('server-section'),
+            homework: document.getElementById('homework-section'),
+            login: document.getElementById('login-section'),
+            dashboard: document.getElementById('dashboard-section')
+        };
+        
+        const navLinks = document.querySelectorAll('nav a');
+        const loginLink = document.getElementById('login-link');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const connectServerBtn = document.getElementById('connect-server');
+        const closeModalBtn = document.getElementById('close-modal');
+        const serverModal = document.getElementById('server-modal');
+        const copyIpBtn = document.getElementById('copy-ip');
+        
+        // Показать раздел
+        function showSection(sectionId) {
+            // Скрыть все разделы
+            Object.values(sections).forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Показать выбранный раздел
+            if (sections[sectionId]) {
+                sections[sectionId].style.display = 'block';
+            }
+        }
+        
+        // Навигация
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('href').substring(1);
+                
+                if (target === 'login') {
+                    showSection('login');
+                } else if (target === 'schedule') {
+                    showSection('schedule');
+                } else if (target === 'server') {
+                    showSection('server');
+                } else if (target === 'homework') {
+                    showSection('homework');
+                } else {
+                    showSection('home');
+                }
+            });
+        });
+        
+        // Обработчики кнопок
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username && password) {
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('username', username);
+                    loginLink.textContent = 'Кабинет';
+                    showSection('dashboard');
+                } else {
+                    alert('Пожалуйста, введите логин и пароль');
+                }
+            });
+        }
+        
+        if (registerBtn) {
+            registerBtn.addEventListener('click', function() {
+                const regCode = document.getElementById('reg-code').value;
+                const fullname = document.getElementById('fullname').value;
+                
+                if (regCode === '5K-228-RN9' && fullname) {
+                    alert('Регистрация прошла успешно! Теперь вы можете войти.');
+                    document.getElementById('username').value = fullname.toLowerCase().replace(' ', '_');
+                } else {
+                    alert('Неверный код регистрации или имя');
+                }
+            });
+        }
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('userLoggedIn');
+                localStorage.removeItem('username');
+                loginLink.textContent = 'Вход';
+                showSection('login');
+            });
+        }
+        
+        if (connectServerBtn) {
+            connectServerBtn.addEventListener('click', function() {
+                serverModal.style.display = 'flex';
+            });
+        }
+        
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function() {
+                serverModal.style.display = 'none';
+            });
+        }
+        
+        if (copyIpBtn) {
+            copyIpBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText('server-5k.shkola.ru:25565')
+                    .then(() => alert('IP-адрес скопирован в буфер обмена!'))
+                    .catch(err => alert('Ошибка копирования: ' + err));
+            });
+        }
+        
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(e) {
+            if (e.target === serverModal) {
+                serverModal.style.display = 'none';
+            }
+        });
+        
+        // Проверка статуса авторизации при загрузке
+        window.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('userLoggedIn') === 'true') {
+                loginLink.textContent = 'Кабинет';
+                showSection('dashboard');
+            } else {
+                showSection('home');
+            }
+            
+            // Генерация кода подтверждения
+            document.getElementById('reg-code').value = '5K-228-RN9';
+        });
+    </script>
+</body>
+</html>
